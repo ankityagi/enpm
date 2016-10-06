@@ -1,5 +1,4 @@
 import grails.util.Environment
-import org.apache.log4j.*
 
 if (Environment.current == Environment.PRODUCTION) {
 
@@ -136,24 +135,12 @@ environments {
 
 // log4j configuration
 log4j = {
-    // def logLayoutPattern = new PatternLayout("%d [%t] %-5p %c %x - %m%n")
     // Example of changing the log pattern for the default console appender:
     //
-    appenders {
+    //appenders {
        // console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-       // file name:'file', file:'vulcan.log', append: false
-       appender new DailyRollingFileAppender(name: "appFile", threshold: org.apache.log4j.Level.INFO, file: config.grails.app.uploadDir + File.separator + "log" + File.separator + "vulcanLog", datePattern: "'_'yyyy-MM-dd'.log'", layout: pattern(conversionPattern:'%d %-5p %c{2} %x - %m%n'))
-       appender new ConsoleAppender(name: "console",  layout: pattern(conversionPattern:'%d %-5p %c{2} %x - %m%n'))
-    }
+    // }
 
-    root {
-            // info 'console'
-            // additivity = false
-            // info 'appFile'
-            // off 'vulcanLog'
-            // warn 'appFile', 'console'
-            // error 'appFile', 'console'
-    }
     error  'org.codehaus.groovy.grails.web.servlet',        // controllers
            'org.codehaus.groovy.grails.web.pages',          // GSP
            'org.codehaus.groovy.grails.web.sitemesh',       // layouts
@@ -165,8 +152,6 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
-    // info additivity: false, console: ['grails.app.controllers']
-    info additivity: false, appFile: ['grails.app.controllers']
 }
 
 

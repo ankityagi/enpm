@@ -1,10 +1,13 @@
 import elms.auth.SecRole
 import elms.auth.SecUser
 import elms.auth.SecUserSecRole
-
+import grails.util.Environment
 
 
 class BootStrap {
+    def dataSource
+    def mailService
+    def grailsApplication
 
     def init = { servletContext ->
 

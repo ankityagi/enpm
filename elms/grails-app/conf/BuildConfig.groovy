@@ -3,10 +3,14 @@ grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 grails.project.work.dir = "target/work"
-grails.project.target.level = 1.6
-grails.project.source.level = 1.6
+grails.project.target.level = 1.7
+grails.project.source.level = 1.7
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
+// Server port
+grails.server.port.http = 8080
+
+/*
 grails.project.fork = [
     // configure settings for compilation JVM, note that if you alter the Groovy version forked compilation is required
     //  compile: [maxMemory: 256, minMemory: 64, debug: false, maxPerm: 256, daemon:true],
@@ -20,8 +24,9 @@ grails.project.fork = [
     // configure settings for the Console UI JVM
     console: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256]
 ]
+*/
 
-grails.project.dependency.resolver = "ivy" // or ivy
+grails.project.dependency.resolver = "ivy" // or maven
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
     inherits("global") {
@@ -40,41 +45,46 @@ grails.project.dependency.resolution = {
         mavenLocal()
         grailsCentral()
         mavenCentral()
+        grailsRepo "https://grails.org/plugins"
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
-        grailsRepo "http://grails.org/plugins" 
-        mavenRepo "https://repo.grails.org/grails/plugins"
     }
 
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
         // runtime 'mysql:mysql-connector-java:5.1.27'
-        // runtime 'org.postgresql:postgresql:9.3-1100-jdbc41'
         runtime 'mysql:mysql-connector-java:5.1.22'
-        compile "org.imgscalr:imgscalr-lib:4.2"
+        // runtime 'org.postgresql:postgresql:9.3-1100-jdbc41'
         compile "org.grails.plugins:spring-mobile:1.1.3"
-        compile "org.grails.plugins:browser-detection:2.7.0"
+        runtime('org.codehaus.groovy.modules.http-builder:http-builder:0.5.1') {
+            excludes 'xalan'
+            excludes 'xml-apis'
+            excludes 'groovy'
+        }
     }
 
     plugins {
-        // plugins for the build system only
+         // plugins for the build system only
         build ":tomcat:7.0.52.1"
 
         // plugins for the compile step
         compile ":scaffolding:2.0.2"
         compile ':cache:1.1.1'
-
+        compile ":phonenumbers:0.10"
+        compile ":mail:1.0.7"
+        compile ":jquery-ui:1.10.3"
+        
         // plugins needed at runtime but not for compilation
         runtime ":hibernate:3.6.10.9" // or ":hibernate4:4.3.4"
         runtime ":database-migration:1.3.8"
         runtime ":jquery:1.11.0.2"
         runtime ":resources:1.2.7"
-
+        
         compile ":spring-security-core:2.0-RC3"
         compile ":spring-security-ui:1.0-RC2"
-        compile ':runtime-logging:0.4'
+        
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0.1"
         //runtime ":cached-resources:1.1"
@@ -89,12 +99,4 @@ grails.project.dependency.resolution = {
         //compile ":coffee-asset-pipeline:1.5.0"
         //compile ":handlebars-asset-pipeline:1.3.0.1"
     }
-
-    grails.project.fork = [
-    compile: false,
-    test: false,
-    run: false,
-    war: false,
-    console: false
-]
 }
