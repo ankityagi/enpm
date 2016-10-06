@@ -100,6 +100,10 @@
   </filter-mapping>
   <filter-mapping>
     <filter-name>AdHocResourcesPluginFilter</filter-name>
+    <url-pattern>/img/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>AdHocResourcesPluginFilter</filter-name>
     <url-pattern>/css/*</url-pattern>
   </filter-mapping>
   <filter-mapping>
@@ -109,6 +113,10 @@
   <filter-mapping>
     <filter-name>AdHocResourcesPluginFilter</filter-name>
     <url-pattern>/plugins/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>AdHocResourcesPluginFilter</filter-name>
+    <url-pattern>/fonts/*</url-pattern>
   </filter-mapping>
   <filter-mapping>
     <filter-name>hiddenHttpMethod</filter-name>

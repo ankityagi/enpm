@@ -1,17 +1,46 @@
-// locations to search for config files that get merged into the main config;
-// config files can be ConfigSlurper scripts, Java properties files, or classes
-// in the classpath in ConfigSlurper format
-println 'Reading Config from elms'
-appName = 'elms'
-// grails.config.locations = ["classpath:${appName}-config.groovy"]
-grails.config.locations = [ "classpath:${appName}-config.properties",
-                            "classpath:${appName}-config.groovy",
-                            "file:${userHome}/.grails/${appName}-config.properties",
-                            "file:${userHome}/.grails/${appName}-config.groovy"]
+import grails.util.Environment
+import org.apache.log4j.*
 
-// if (System.properties["${appName}.config.location"]) {
-//    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
-// }
+if (Environment.current == Environment.PRODUCTION) {
+
+    // external configuration
+    def ENV_NAME = "TOMCAT_ROOT_CONFIG"
+    if (!grails.config.locations || !(grails.config.locations instanceof List)) {
+        grails.config.locations = []
+    }
+    if (System.getenv(ENV_NAME)) {
+        println "Including configuration file specified in environment: " + System.getenv(ENV_NAME)
+        grails.config.locations << "file:" + System.getenv(ENV_NAME)
+
+    } else if (System.getProperty(ENV_NAME)) {
+        println "Including configuration file specified on command line: " + System.getProperty(ENV_NAME)
+        grails.config.locations << "file:" + System.getProperty(ENV_NAME)
+
+    } else {
+        println "No external configuration file defined."
+    }
+    
+} else {
+
+    grails.config.locations = [ "classpath:${appName}-config.properties",
+                                "classpath:${appName}-config.groovy",
+                                "file:${userHome}/.grails/${appName}-config.properties",
+                                "file:${userHome}/.grails/${appName}-config.groovy"]
+
+    if (System.properties["${appName}.config.location"]) {
+        grails.config.locations << "file:" + System.properties["${appName}.config.location"]
+    }
+
+}
+
+// default data bindings 
+grails.databinding.dateFormats = [
+    'MM/dd/yyyy', 
+    'MMddyyyy', 
+    'yyyy-MM-dd HH:mm:ss.S', 
+    "yyyy-MM-dd'T'hh:mm:ss'Z'"
+]
+
 
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 
@@ -37,8 +66,12 @@ grails.mime.types = [ // the first one is the default format
 //grails.urlmapping.cache.maxsize = 1000
 
 // What URL patterns should be processed by the resources plugin
-grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
-grails.resources.adhoc.includes = ['/images/**', '/css/**', '/js/**', '/plugins/**']
+grails.resources.adhoc.patterns = ['/images/*', '/img/*', '/css/*', '/js/*', '/plugins/*', '/fonts/*']
+grails.resources.adhoc.includes = ['/images/**', '/img/**', '/css/**', '/js/**', '/plugins/**', '/fonts/**']
+grails.resources.adhoc.excludes = ['**/WEB-INF/**','**/META-INF/**']
+//http://stackoverflow.com/questions/22089379/grails-2-3-changes-css-font-face-url-to-resource
+grails.resources.rewrite.css = false
+
 
 // Legacy setting for codec used to encode data with ${}
 grails.views.default.codec = "html"
@@ -103,12 +136,24 @@ environments {
 
 // log4j configuration
 log4j = {
+    // def logLayoutPattern = new PatternLayout("%d [%t] %-5p %c %x - %m%n")
     // Example of changing the log pattern for the default console appender:
     //
-    //appenders {
-    //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-    //}
+    appenders {
+       // console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+       // file name:'file', file:'vulcan.log', append: false
+       appender new DailyRollingFileAppender(name: "appFile", threshold: org.apache.log4j.Level.INFO, file: config.grails.app.uploadDir + File.separator + "log" + File.separator + "vulcanLog", datePattern: "'_'yyyy-MM-dd'.log'", layout: pattern(conversionPattern:'%d %-5p %c{2} %x - %m%n'))
+       appender new ConsoleAppender(name: "console",  layout: pattern(conversionPattern:'%d %-5p %c{2} %x - %m%n'))
+    }
 
+    root {
+            // info 'console'
+            // additivity = false
+            // info 'appFile'
+            // off 'vulcanLog'
+            // warn 'appFile', 'console'
+            // error 'appFile', 'console'
+    }
     error  'org.codehaus.groovy.grails.web.servlet',        // controllers
            'org.codehaus.groovy.grails.web.pages',          // GSP
            'org.codehaus.groovy.grails.web.sitemesh',       // layouts
@@ -120,7 +165,10 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+    // info additivity: false, console: ['grails.app.controllers']
+    info additivity: false, appFile: ['grails.app.controllers']
 }
+
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'elms.auth.SecUser'
@@ -134,3 +182,23 @@ grails.plugin.springsecurity.logout.afterLogoutUrl = '/'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
     '/**': ['permitAll'], 
 ]
+
+// grails.plugin.springsecurity.rememberMe.alwaysRemember = true // always make cookie
+grails.plugin.springsecurity.rememberMe.cookieName = 'vulcan-sof'
+grails.plugin.springsecurity.rememberMe.key = 'vulcansofREM'
+
+
+
+
+environments {
+    development {
+        uploadFolder = "C:/Users/arudenko/Documents/Vupload/"
+        // debug appFile:"errors", additivity: false
+    }
+    test {
+        uploadFolder = "C:/Users/arudenko/Documents/Vupload/"
+    }
+    production {
+        uploadFolder = "C:/Users/arudenko/Documents/Vupload/"
+    }
+}

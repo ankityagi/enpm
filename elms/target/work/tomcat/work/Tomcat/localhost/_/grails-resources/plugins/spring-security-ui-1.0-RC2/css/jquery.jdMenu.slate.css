@@ -1,7 +1,7 @@
 ul.jd_menu_slate {
 	height: 19px;
 	background-color: #DDF;
-	background: url(resource:/plugins/spring-security-ui-1.0-RC2/css/gradient.png) repeat-x;
+	background: url(gradient.png) repeat-x;
 	border: 1px solid #70777D;
 	border-top: 1px solid #A5AFB8;
 	border-left: 1px solid #A5AFB8;
@@ -12,7 +12,7 @@ ul.jd_menu_vertical {
 	width: 200px;
 	height: auto;
 	clear: both;
-	background: url(resource:/plugins/spring-security-ui-1.0-RC2/css/gradient-vertical.png) repeat-x;
+	background: url(gradient-vertical.png) repeat-x;
 	background-color: #A5AFB8;
 }
 
@@ -46,7 +46,7 @@ ul.jd_menu_slate li.jdm_hover {
 	border-right: 1px solid #929AA1;
 	border-right: 1px solid #70777D;
 	color: #FFF;
-	background: url(resource:/plugins/spring-security-ui-1.0-RC2/css/gradient-alt.png) repeat-x;
+	background: url(gradient-alt.png) repeat-x;
 }
 
 ul.jd_menu_vertical li.jdm_active,
@@ -70,7 +70,7 @@ ul.jd_menu_slate ul li {
 }
 ul.jd_menu_slate ul li.jd_menu_active,
 ul.jd_menu_slate ul li.jd_menu_hover {
-	background: url(resource:/plugins/spring-security-ui-1.0-RC2/css/gradient.png) repeat-x;
+	background: url(gradient.png) repeat-x;
 	padding-top: 2px;
 	border-top: 1px solid #ABB5BC;
 	padding-bottom: 2px;

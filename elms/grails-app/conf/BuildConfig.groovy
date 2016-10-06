@@ -74,6 +74,7 @@ grails.project.dependency.resolution = {
 
         compile ":spring-security-core:2.0-RC3"
         compile ":spring-security-ui:1.0-RC2"
+        compile ':runtime-logging:0.4'
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0.1"
         //runtime ":cached-resources:1.1"
@@ -88,4 +89,12 @@ grails.project.dependency.resolution = {
         //compile ":coffee-asset-pipeline:1.5.0"
         //compile ":handlebars-asset-pipeline:1.3.0.1"
     }
+
+    grails.project.fork = [
+    compile: false,
+    test: false,
+    run: false,
+    war: false,
+    console: false
+]
 }

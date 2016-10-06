@@ -1,4 +1,4 @@
-println "Using elms-config.groovy file at .grails/"
+println "Using elms-config.groovy file at empn/grails-app/conf/"
 
 dataSource {
     pooled = true
