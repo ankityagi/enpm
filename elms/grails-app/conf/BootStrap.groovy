@@ -2,6 +2,7 @@ import elms.auth.SecRole
 import elms.auth.SecUser
 import elms.auth.SecUserSecRole
 import grails.util.Environment
+import groovy.sql.Sql
 
 
 class BootStrap {

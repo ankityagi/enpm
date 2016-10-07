@@ -5,7 +5,7 @@ import elms.auth.SecRole
 import java.util.Date
 
 class Announcement {
-    private static String name
+    String name
     String description
     
     Date dateCreated
