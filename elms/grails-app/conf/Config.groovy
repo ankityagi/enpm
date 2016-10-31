@@ -162,7 +162,7 @@ grails.plugin.springsecurity.authority.className = 'elms.auth.SecRole'
 grails.plugin.springsecurity.logout.postOnly = false
 grails.plugin.springsecurity.securityConfigType = "Annotation"
 grails.plugin.springsecurity.rejectIfNoRule = true
-grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/home/login'
+grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/home/index'
 grails.plugin.springsecurity.logout.afterLogoutUrl = '/'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
     '/**': ['permitAll'], 
