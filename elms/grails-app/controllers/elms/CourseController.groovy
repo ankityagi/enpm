@@ -4,15 +4,66 @@ package elms
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+import elms.auth.SecUser
+import elms.auth.SecRole
+import elms.auth.SecUserSecRole
 
 @Transactional(readOnly = true)
 class CourseController {
+    def springSecurityService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
+        def currentUser = springSecurityService.currentUser
         params.max = Math.min(max ?: 10, 100)
-        respond Course.list(params), model:[courseInstanceCount: Course.count()]
+        def adminUser = SecRole.get(1)
+        def student = SecRole.get(3)
+        def instructor = SecRole.get(2)
+
+        def role = currentUser.getAuthorities()
+        def currentRole
+        def courseList = []
+        def courseListInstruc = []
+        def allCourses = Course.list(params)
+        
+
+        if(role.contains(adminUser)){
+            currentRole='admin'
+            courseList = allCourses
+        }
+        // Instructor needs two lists
+        if(role.contains(instructor)){
+            currentRole='instructor'
+            allCourses.each{it->
+                if (it.instructor==currentUser){
+                    courseListInstruc << it
+                }
+                it.students.each{user->
+                    if (user==currentUser){
+                        courseList << it
+                    }
+                }
+            }
+        }
+        if(role.contains(student)){
+            currentRole='student'
+            allCourses.each{it->
+                it.students.each{user->
+                    if (user==currentUser){
+                        courseList << it
+                    }
+                }
+            }
+        }
+
+        println currentRole + " looking at courses"
+        return [currentUser:currentUser, courseList:courseList, courseListInstruc:courseListInstruc, currentRole:currentRole]
+    }
+
+    def showCourse(Course courseInstance) {
+        def currentUser = springSecurityService.currentUser
+        return [currentUser:currentUser]
     }
 
     def show(Course courseInstance) {
@@ -20,7 +71,9 @@ class CourseController {
     }
 
     def create() {
-        respond new Course(params)
+        def currentUser = springSecurityService.currentUser
+
+        respond new Course(params), model:[currentUser:currentUser]
     }
 
     @Transactional
