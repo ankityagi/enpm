@@ -16,6 +16,7 @@ Last Update: November 06, 2016
 1. Clone the repo to your system
 2. Copy ~/enmp/elms/config/elms-config.groovy to ~/.grails/
 3. Edit the above file - lines 24 and 25 to use your own MySQL username and password. Mine are aces and aces
+   a. Make sure the user account has permission to update schemas
 4. Create a new schema called elms, execute in workbench: CREATE DATABASE `elms` /*!40100 DEFAULT CHARACTER SET latin1 */;
 5. Open command window / terminal at ~/enmp/elms 
    a. enter command: $grails run-app -reloading
