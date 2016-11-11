@@ -42,8 +42,8 @@ class SecUser {
 		
 		timezone defaultValue: "'UTC'"
 		
-		dateCreated defaultValue: 'CURRENT_TIMESTAMP'
-		lastUpdated defaultValue: 'CURRENT_TIMESTAMP'
+		// dateCreated defaultValue: 'CURRENT_TIMESTAMP'
+		// lastUpdated defaultValue: 'CURRENT_TIMESTAMP'
 	}
 
 	Set<SecRole> getAuthorities() {
