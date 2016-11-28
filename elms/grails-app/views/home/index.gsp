@@ -76,7 +76,7 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <h4>Instructor Actions</h4>
+                            <h4>Student Actions</h4>
                             <a class="btn btn-outline btn-primary btn-lg btn-block" href="${createLink(controller:'course', action:'index')}">
                                 <i class="glyphicon glyphicon-eye-open"></i>&nbsp;My Courses</a>
                         </div>

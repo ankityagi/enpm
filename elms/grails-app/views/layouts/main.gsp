@@ -28,8 +28,9 @@
     <!-- Desktop Nav Bar -->
     <!-- /Mobile Nav Bar -->
     <g:layoutBody/>
-    <script src="${resource(dir: 'plugins/jquery', file: 'jquery-3.1.1.min.js')}"></script>
+    <script src="${resource(dir: 'plugins/jquery', file: 'jquery.min.js')}"></script>
     <script src="${resource(dir: 'plugins/bootstrap/js', file: 'bootstrap.min.js')}"></script>
+    <script src="${resource(dir: 'plugins/bootstrap/js', file: 'bootstrap-filestyle.min.js')}"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="${resource(dir: 'plugins/metisMenu', file: 'metisMenu.min.js')}"></script>
     <!-- Custom Theme JavaScript -->
@@ -40,8 +41,13 @@
     <script src="${resource(dir: 'plugins/datatables-responsive', file: 'dataTables.responsive.js')}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="${resource(dir: 'dist/js', file: 'sb-admin-2.js')}"></script>
+
+    
+
     <r:layoutResources disposition="defer" />
     <!-- JavaScript Code -->
+    <!-- Upload Jquery Plugin -->
+
 </body>
 
 </html>

@@ -1,7 +1,8 @@
 package elms
 
 
-
+import grails.plugin.springsecurity.annotation.Secured
+import grails.plugin.springsecurity.SpringSecurityUtils
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import elms.auth.SecUser
@@ -9,6 +10,7 @@ import elms.auth.SecRole
 import elms.auth.SecUserSecRole
 
 @Transactional(readOnly = true)
+@Secured(['ROLE_ADMIN', 'ROLE_STUDENT', 'ROLE_INSTRUCTOR'])
 class CourseController {
     def springSecurityService
 
@@ -18,8 +20,8 @@ class CourseController {
         def currentUser = springSecurityService.currentUser
         params.max = Math.min(max ?: 10, 100)
         def adminUser = SecRole.get(1)
-        def student = SecRole.get(3)
-        def instructor = SecRole.get(2)
+        def student = SecRole.get(2)
+        def instructor = SecRole.get(3)
 
         def role = currentUser.getAuthorities()
         def currentRole
@@ -63,11 +65,37 @@ class CourseController {
 
     def showCourse(Course courseInstance) {
         def currentUser = springSecurityService.currentUser
-        return [currentUser:currentUser]
+        // params.max = Math.min(max ?: 10, 100)
+        def adminUser = SecRole.get(1)
+        def student = SecRole.get(2)
+        def instructor = SecRole.get(3)
+
+        def role = currentUser.getAuthorities()
+        def currentRole = []
+        def courseAnnouncements = courseInstance.announcements
+        def courseAssignments = courseInstance.assignments
+
+        if(role.contains(adminUser)){
+            currentRole='admin'
+        }
+        // Instructor needs two lists
+        if(role.contains(instructor)){
+            currentRole='instructor'
+        }
+
+        if(role.contains(student)){
+            currentRole='student'
+        }
+
+        courseAssignments = courseAssignments.sort{ it.dateCreated}
+        courseAssignments = courseAssignments.reverse(true)
+        println currentRole + " looking at showcourses"
+        return [currentUser:currentUser, currentRole:currentRole, courseAnnouncements:courseAnnouncements,courseInstance:courseInstance,
+        courseAssignments:courseAssignments]
     }
 
     def show(Course courseInstance) {
-        respond courseInstance
+        return [courseInstance:courseInstance]
     }
 
     def create() {
@@ -120,9 +148,9 @@ class CourseController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'Course.label', default: 'Course'), courseInstance.id])
-                redirect courseInstance
+                redirect action:"index"
             }
-            '*'{ respond courseInstance, [status: OK] }
+            redirect action:"index"
         }
     }
 
@@ -141,7 +169,7 @@ class CourseController {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'Course.label', default: 'Course'), courseInstance.id])
                 redirect action:"index", method:"GET"
             }
-            '*'{ render status: NO_CONTENT }
+            redirect action:"index"
         }
     }
 

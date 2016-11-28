@@ -5,7 +5,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="index.html">EMLS Alpha 0.1</a>
+    <a class="navbar-brand" href="${createLink(controller:'home',action:'index')}">EMLS Alpha 0.1</a>
 </div>
 <!-- /.navbar-header -->
 <ul class="nav navbar-top-links navbar-right">

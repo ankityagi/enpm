@@ -38,8 +38,9 @@
 									<g:sortableColumn property="description" title="${message(code: 'course.description.label', default: 'Description')}" />
 								
 									<g:sortableColumn property="dateCreated" title="${message(code: 'course.dateCreated.label', default: 'Date Created')}" />
-								
-									<g:sortableColumn property="lastUpdated" title="${message(code: 'course.lastUpdated.label', default: 'Last Updated')}" />
+
+									<th>Action</th>
+
 								
 								</tr>
 							</thead>
@@ -49,11 +50,11 @@
 								
 									<td><g:link action="showCourse" id="${courseInstance.id}">${fieldValue(bean: courseInstance, field: "creator")}</g:link></td>
 								
-									<td>${fieldValue(bean: courseInstance, field: "instructor")}</td>
+									<td><${fieldValue(bean: courseInstance, field: "instructor")}</td>
 								
 									<td>Instructor</td>
 
-									<td>${fieldValue(bean: courseInstance, field: "name")}</td>
+									<td><g:link action="showCourse" id="${courseInstance.id}">${fieldValue(bean: courseInstance, field: "name")}</g:link></td>
 								
 									<td>${fieldValue(bean: courseInstance, field: "description")}</td>
 								
@@ -72,14 +73,18 @@
 								
 									<td>${currentRole}</td>
 
-									<td>${fieldValue(bean: courseInstance, field: "name")}</td>
+									<td><g:link action="showCourse" id="${courseInstance.id}">${fieldValue(bean: courseInstance, field: "name")}</g:link></td>
 								
 									<td>${fieldValue(bean: courseInstance, field: "description")}</td>
 								
 									<td><g:formatDate date="${courseInstance.dateCreated}" /></td>
-								
-									<td><g:formatDate date="${courseInstance.lastUpdated}" /></td>
-								
+									
+									<g:if test="${currentRole=='admin' || currentRole=='instructor'}">
+										<td><g:link action="edit" id="${courseInstance.id}">Edit</g:link></td>
+									</g:if>
+									<g:else>
+										<td><g:link action="showCourse" id="${courseInstance.id}">View</g:link></td>
+									</g:else>
 								</tr>
 							</g:each>
 							</tbody>

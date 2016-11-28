@@ -23,8 +23,8 @@ class HomeController {
 		def currentUser = springSecurityService.currentUser
 		params.max = Math.min(max ?: 4, 100)
         def adminUser = SecRole.get(1)
-        def student = SecRole.get(3)
-        def instructor = SecRole.get(2)
+        def student = SecRole.get(2)
+        def instructor = SecRole.get(3)
 
         def role = currentUser.getAuthorities()
         def currentRole
@@ -66,4 +66,8 @@ class HomeController {
 
 		return [currentUser:currentUser, courseList:courseList, courseListInstruc:courseListInstruc, currentRole:currentRole] 
 	}
+
+    def request() {
+
+    }
 }

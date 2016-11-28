@@ -7,6 +7,7 @@ dataSource {
 
 // default context 
 grails.app.context = "/"
+uploadFolder = "/Users/ankit/git/enmp/uploads"
 
 hibernate {
     cache.use_second_level_cache = true
