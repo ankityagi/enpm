@@ -11,15 +11,16 @@
 
 </div> -->
 <g:set var="creator.id" value="${currentUser?.id}" />
+<g:set var="instructor.id" value="${courseInstance?.instructor.id}" />
 
-<div class="fieldcontain ${hasErrors(bean: announcementInstance, field: 'instructor', 'error')} ">
+<!-- <div class="fieldcontain ${hasErrors(bean: announcementInstance, field: 'instructor', 'error')} ">
 	<label for="instructor">
 		<g:message code="announcement.instructor.label" default="Instructor" />
 		
 	</label>
 	<g:select id="instructor" name="instructor.id" from="${elms.auth.SecUser.list()}" optionKey="id" value="${announcementInstance?.instructor?.id}" class="many-to-one" noSelection="['null': '']"/>
 
-</div>
+</div> -->
 
 <div class="fieldcontain ${hasErrors(bean: announcementInstance, field: 'description', 'error')} ">
 

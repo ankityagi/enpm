@@ -10,24 +10,23 @@
                     <g:if test="${currentRole=='admin' || currentRole=='instructor'}">
                         <a href="${createLink(controller:'announcement', action:'create', params:[id:courseInstance?.id])}"><i class="fa fa-table fa-fw"></i> Create Announcement</a>
                     </g:if>
-                    <g:else>
-                        <a href="${createLink(controller:'announcement', action:'create')}"><i class="fa fa-table fa-fw"></i> Announcement</a>
-                    </g:else>
+                   
                 </li>
                 <li>
-                    <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Modules</a>
+                    <g:if test="${currentRole=='admin' || currentRole=='instructor'}">
+                        <a href="${createLink(controller:'module', action:'create', params:[id:courseInstance?.id])}"><i class="fa fa-edit fa-fw"></i> Create Module</a>
+                    </g:if>
+                   
                 </li>
                 <li>
                     <g:if test="${currentRole=='admin' || currentRole=='instructor'}">
                         <a href="${createLink(controller:'assignment', action:'create', params:[id:courseInstance?.id])}"><i class="fa fa-edit fa-fw"></i> Create Assignments</a>
                     </g:if>
-                    <g:else>
-                        <a href="${createLink(controller:'assignment', action:'index', params:[id:courseInstance?.id])}"><i class="fa fa-edit fa-fw"></i> Assignments</a>
-                    </g:else>
+                    
                 </li>
                 <li>
                     <g:if test="${currentRole=='admin' || currentRole=='instructor'}">
-                        <a href="${createLink(controller:'assignment', action:'allGrades', params:[id:courseInstance?.id])}"><i class="fa fa-edit fa-fw"></i> All Assignments</a>
+                        <a href="${createLink(controller:'assignment', action:'allGrades', params:[id:courseInstance?.id])}"><i class="fa fa-edit fa-fw"></i> Class Roster</a>
                     </g:if>
                     <g:else>
                         <a href="${createLink(controller:'assignment', action:'myGrades', params:[courseId:courseInstance?.id])}"><i class="fa fa-edit fa-fw"></i> My Grades</a>

@@ -52,7 +52,36 @@
                                     
                                         <td><g:link controller="announcement" action="show" id="${announcementInstance.id}">${announcementInstance?.name}</g:link></td>
                                     
-                                        <td><g:formatDate date="${announcementInstance.dateCreated}" /></td>
+                                        <td><g:formatDate date="${announcementInstance.dateCreated}" type="date" style="short" /></td>
+                                    
+                                    </tr>
+                                </g:each>
+                                </tbody>
+                            </table>
+                            <div class="pagination">
+                                <g:paginate total="${courseInstanceCount ?: 0}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="list-course" class="content scaffold-list" role="main">
+                            <h4>Modules</h4>
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                                    <tr>
+                                    
+                                        <th><g:message code="course.creator.label" default="Creator" /></th>
+                                    
+                                        <g:sortableColumn property="role" title="Module Name" />
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <g:each in="${moduleList}" status="i" var="documentInstance">
+                                    <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+                                    
+                                        <td>${documentInstance?.creator}</td>
+
+                                        <td><g:link controller="document" action="download" id="${documentInstance.id}">${documentInstance?.filename}</g:link>
                                     
                                     </tr>
                                 </g:each>
@@ -74,7 +103,7 @@
                                     
                                         <th><g:message code="course.instructor.label" default="Instructor" /></th>
                                     
-                                        <g:sortableColumn property="role" title="Announcement Name" />
+                                        <g:sortableColumn property="role" title="Assignment Name" />
                                     
                                         <g:sortableColumn property="dateCreated" title="${message(code: 'course.dateCreated.label', default: 'Date Created')}" />
 
@@ -96,7 +125,7 @@
                                     
                                         <td><g:link controller="assignment" action="show" id="${assignmentInstance.id}" params="${[courseId: courseInstance?.id]}">${assignmentInstance?.name}</g:link></td>
                                     
-                                        <td><g:formatDate date="${assignmentInstance.dateCreated}" /></td>
+                                        <td><g:formatDate date="${assignmentInstance.dateCreated}" type="date" style="short"/></td>
                                         
                                         <!-- <g:if test="${currentRole=='admin' || currentRole=='instructor'}">
                                             <td><g:link controller="assignment" action="grade" id="${assignmentInstance.id}"><button class="btn btn-default">Grade</button></g:link></td>

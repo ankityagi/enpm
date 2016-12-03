@@ -32,7 +32,7 @@
                 <g:if test="${gradesList}">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            My Grades
+                            My Grades for ${totalAssignments} Assignments under ${courseInstance?.name}
                         </div>
                         <div class="panel-body">
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">

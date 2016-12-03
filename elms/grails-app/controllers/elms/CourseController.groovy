@@ -87,11 +87,14 @@ class CourseController {
             currentRole='student'
         }
 
+        // Get list of attachements
+        def moduleList = Document.findAllByTypeAndCourse('module',courseInstance)
+
         courseAssignments = courseAssignments.sort{ it.dateCreated}
         courseAssignments = courseAssignments.reverse(true)
         println currentRole + " looking at showcourses"
         return [currentUser:currentUser, currentRole:currentRole, courseAnnouncements:courseAnnouncements,courseInstance:courseInstance,
-        courseAssignments:courseAssignments]
+        courseAssignments:courseAssignments, moduleList:moduleList]
     }
 
     def show(Course courseInstance) {

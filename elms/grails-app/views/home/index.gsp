@@ -56,10 +56,7 @@
                         <div class="panel-body">
                             <h4>Instructor Actions</h4>
                             <a class="btn btn-outline btn-primary btn-lg btn-block" href="${createLink(controller:'course', action:'index')}">
-                                <i class="glyphicon glyphicon-eye-open"></i>&nbsp;My Courses as Instructor</a>
-
-                            <a class="btn btn-outline btn-primary btn-lg btn-block" href="${createLink(controller:'course', action:'create')}">
-                                <i class="glyphicon glyphicon-eye-open"></i>&nbsp;My Courses as Student</a>
+                                <i class="glyphicon glyphicon-eye-open"></i>&nbsp;See Courses</a>
                         </div>
                     </div>
                 </div>

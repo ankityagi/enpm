@@ -42,15 +42,64 @@ class AssignmentController {
         def gradesList = Gradebook.findAllByStudentsAndCourses(currentUser, courseInstance)
         def sumMax = 0
         def sumScore = 0
-        gradesList.each{grade->
-            sumMax = sumMax + grade.assignments.maxScore
-            sumScore = grade.score
+        // Get list of assignments for this course
+        def assignmentsList = courseInstance.assignments
+
+        assignmentsList.each{ assign->
+            sumMax = sumMax + assign.maxScore
         }
+
+        gradesList.each{grade->
+            sumScore = sumScore + grade.score
+        }
+
         def percentage = Math.round(sumScore *100/ sumMax)
         
 
         return [currentUser:currentUser, role:role, gradesList:gradesList, courseId:courseId, percentage:percentage,
-        sumMax:sumMax, sumScore:sumScore
+        sumMax:sumMax, sumScore:sumScore, totalAssignments:assignmentsList.size(), courseInstance:courseInstance
+        ]
+    }
+
+    @Secured(['ROLE_ADMIN', 'ROLE_INSTRUCTOR'])
+    def allGrades(Assignment assignmentInstance) {
+        def currentUser = springSecurityService.currentUser
+        def role = currentUser.getAuthorities().authority
+        print params
+        def courseId = params.id
+        def courseInstance = Course.get(courseId)
+        def sumMax = 0
+        def sumScore = 0
+        // Studens in course
+        def studentList = courseInstance.students
+        // Get list of assignments for this course
+        def assignmentsList = courseInstance.assignments
+        def studentRosterMap = [:]
+
+        assignmentsList.each{ assign->
+            sumMax = sumMax + assign.maxScore
+        }
+        
+        studentList.each { student->
+            def gradesList = Gradebook.findAllByStudentsAndCourses(student, courseInstance)
+            def assSubmited = 0
+            gradesList.each{grade->
+                assSubmited++
+                sumScore = sumScore + grade.score
+            }
+            if (sumMax==0){
+                studentRosterMap."$student" = [assSubmited, 0]
+            } else {
+                studentRosterMap."$student" = [assSubmited, Math.round(sumScore *100/ sumMax)]
+            }
+            
+        }
+        
+        
+        
+
+        return [currentUser:currentUser, role:role, studentRosterMap:studentRosterMap, courseId:courseId,
+         courseInstance:courseInstance, assignmentsList:assignmentsList
         ]
     }
 
@@ -67,7 +116,7 @@ class AssignmentController {
         
         def allfiles = request.getFileNames()
         def documentInstance
-        print "allfiles "  + allfiles
+        print "allfiles "  + allfiles  + " does it exists " + allfiles
         allfiles.each{ name->
             print "name = " + name
             if (name.equals('files[]')) { //make sure to get the multifiles only
@@ -111,16 +160,15 @@ class AssignmentController {
 
         if (!allfiles){
             request.withFormat {
-            form multipartForm {
-                flash.message = "Did not find the file"
-                redirect(controller:"course", action:"showCourse", id:courseId)
+                form multipartForm {
+                    flash.message = "Your assignment was successfully submitted"
+                    redirect(controller:"course", action:"showCourse", id:courseId)
+                }
             }
-        }
-
         } else {
             request.withFormat {
             form multipartForm {
-                flash.message = "Your assignment was successfully submitted"
+                flash.message = "Did not find the file"
                 redirect(controller:"course", action:"showCourse", id:courseId)
             }
         }
